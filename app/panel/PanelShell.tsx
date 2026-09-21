@@ -15,6 +15,7 @@ type NavItem = readonly [href: string, icon: IconName, label: string, roles: rea
 type NavGroup = readonly [group: string, items: readonly NavItem[]];
 
 const roleLabels: Record<RoleKey, string> = { super_admin: "Süper Yönetici", admin: "Admin", branch_manager: "Şube Yöneticisi", sales: "Satış Personeli", finance: "Finans Personeli" };
+const roleShortLabels: Record<RoleKey, string> = { super_admin: "Süper", admin: "Admin", branch_manager: "Şube", sales: "Satış", finance: "Finans" };
 
 const icons: Record<IconName, LucideIcon> = {
   dashboard: LayoutDashboard, customers: UsersRound, operations: CalendarCheck,
@@ -63,7 +64,7 @@ export default function PanelShell({ children, navigation, brandName }: { childr
         <div className="appbar-title"><div className="crumb">{brandName} / İşletme Yönetimi</div></div>
         <div className="spacer" />
         <label className="branch-filter"><Building2 size={14} /><select value={branch} onChange={(event) => setBranch(event.target.value)} aria-label="Şube seç"><option>Tüm Şubeler</option><option>Merkez Şube</option><option>Kadıköy Şubesi</option><option>Avrupa Yakası</option></select></label>
-        <span className="pill role-pill">{roleLabels[role]}</span>
+        <span className="pill role-pill"><span className="role-long">{roleLabels[role]}</span><span className="role-short">{roleShortLabels[role]}</span></span>
       </header>
       <div className="page-body">{children}</div>
     </div>

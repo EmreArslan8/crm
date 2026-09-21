@@ -899,7 +899,7 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
   .desktop-category-list button.active { background: var(--accent-soft); color: var(--accent-2); }
   .desktop-category-list small { display: grid; min-width: 22px; height: 22px; place-items: center; border-radius: 7px; background: var(--surface-2); color: var(--ink-3); font: 700 10px/1 var(--font-mono); }
   .desktop-category-list button.active small { background: #fff; color: var(--accent-2); }
-  .desktop-catalog-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin: 1px 0 12px; }
+  .desktop-catalog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 1px 0 12px; }
   .desktop-catalog-head small { padding: 5px 9px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink-3); font-size: 11px; }
   .shop-wrap .prod-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
   .shop-wrap .prod { min-width: 0; }
@@ -1259,6 +1259,7 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
 .branch-filter { display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink-3); }
 .branch-filter select { max-width: 148px; border: 0; outline: 0; background: transparent; color: var(--ink-2); font: 600 12px var(--font-body); cursor: pointer; }
 .role-pill { padding: 5px 9px; border-color: var(--accent-line); background: var(--accent-soft); color: var(--accent-2); }
+.role-short { display: none; }
 
 .dashboard-shell, .module-page { max-width: 1440px; margin: 0 auto; }
 .dashboard-hero, .module-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
@@ -1308,6 +1309,9 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
 .table-foot { display: flex; justify-content: space-between; padding: 11px 14px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 11.5px; }
 .form-grid-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
 .form-grid-demo .wide { grid-column: 1 / -1; }
+.permission-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.permission-grid label { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--canvas); color: var(--ink-2); font-size: 12px; font-weight: 600; }
+.permission-grid input { accent-color: var(--accent); }
 .crm-modal .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
 
 /* Demo giriş ekranı */
@@ -1333,8 +1337,13 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
   .dashboard-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
-  .appbar { padding: 10px 14px; }
-  .branch-filter { order: 3; width: 100%; }
+  .appbar { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 8px; padding: 10px 14px; }
+  .appbar .spacer { display: none; }
+  .appbar-title { display: none; }
+  .appbar > .role-pill { max-width: 92px; overflow: hidden; padding: 4px 6px; border: 0; background: transparent; font-size: 10px; text-overflow: ellipsis; }
+  .role-long { display: none; }
+  .role-short { display: inline; }
+  .branch-filter { grid-column: auto; width: 100%; min-width: 0; min-height: 38px; }
   .branch-filter select { flex: 1; max-width: none; }
   .page-body { padding: 18px 14px; }
   .dashboard-hero, .module-head { align-items: stretch; flex-direction: column; gap: 16px; }
@@ -1355,7 +1364,19 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
   .data-toolbar { align-items: stretch; flex-direction: column; }
   .search-box { width: 100%; }
   .data-toolbar > div { display: grid; grid-template-columns: 1fr 1fr; }
-  .crm-table { min-width: 760px; }
+  .data-card .tbl-wrap { overflow: visible; }
+  .crm-table, .crm-table tbody, .crm-table tr, .crm-table td { display: block; width: 100%; }
+  .crm-table thead { display: none; }
+  .crm-table tbody { padding: 0 12px; }
+  .crm-table tbody tr { margin: 12px 0; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow); }
+  .crm-table tbody tr:hover { background: var(--surface); }
+  .crm-table tbody td { min-width: 0; display: grid; grid-template-columns: minmax(92px, .72fr) minmax(0, 1.28fr); align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--line-2); text-align: right; overflow-wrap: anywhere; }
+  .crm-table tbody td::before { content: attr(data-label); color: var(--ink-3); font-size: 9.5px; font-weight: 800; letter-spacing: .055em; text-align: left; text-transform: uppercase; }
+  .crm-table tbody td:first-child { min-width: 0; display: block; padding: 12px; background: var(--canvas); text-align: left; }
+  .crm-table tbody td:first-child::before { display: block; margin-bottom: 3px; }
+  .crm-table tbody td:first-child b { font-size: 14px; }
+  .crm-table tbody td:last-child { border-bottom: 0; }
+  .crm-table tbody td:last-child .badge { justify-self: end; }
   .form-grid-demo { grid-template-columns: 1fr; }
   .form-grid-demo .wide { grid-column: auto; }
   .crm-login { grid-template-columns: 1fr; }

@@ -9,3 +9,4 @@ supabase/**/*.sql
 !supabase/patches/020_internal_stock_fulfillment.sql
 TASK_LIST.md
 .playwright-cli/
+.vercel

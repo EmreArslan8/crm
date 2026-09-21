@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --experimental-app-only",
     "start": "next start",
     "lint": "tsc --noEmit",
     "seed:sql": "node scripts/generate-seed-sql.mjs"
