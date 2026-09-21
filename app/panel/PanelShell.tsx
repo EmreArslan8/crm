@@ -47,7 +47,7 @@ export default function PanelShell({ children, navigation, roleLabel, brandName 
       <div className="brand"><span className="logo-mark"><BriefcaseBusiness size={15} /></span> {brandName}<button className="sidebar-close" type="button" aria-label="Menüyü kapat" onClick={closeMenu}><X className="ic" /></button></div>
       <div className="workspace-chip"><span>Demo çalışma alanı</span><b>Merkez Operasyon</b></div>
       {navigation.map(([group, items]) => <div className="nav-group" key={group}><div className="lab">{group}</div><nav>{items.map(([href, icon, label]) => { const active = href === "/panel" ? pathname === href : pathname.startsWith(href); return <Link className={active ? "active" : undefined} aria-current={active ? "page" : undefined} href={href} key={href} onClick={() => { setIsNavigating(true); closeMenu(); }}><NavIcon name={icon} /><span>{label}</span></Link>; })}</nav></div>)}
-      <div className="foot"><button className="sidebar-logout" type="button" onClick={() => window.location.assign("/login")}><LogOut className="sidebar-logout-icon" size={15} strokeWidth={1.9} /> Giriş ekranı</button><span>CRM demo · v1.0</span></div>
+      <div className="foot"><button className="sidebar-logout" type="button" onClick={() => { document.cookie = "novacrm_role=; path=/; max-age=0"; window.location.assign("/login"); }}><LogOut className="sidebar-logout-icon" size={15} strokeWidth={1.9} /> Rol değiştir / çıkış</button><span>CRM demo · v1.0</span></div>
     </aside>
     <div className="main">
       <header className="appbar">

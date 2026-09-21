@@ -1,3 +1,4 @@
 import { redirect } from "next/navigation";
 
-export default function HomePage() { redirect("/panel"); }
+export default function HomePage() { redirect("/login"); }
+

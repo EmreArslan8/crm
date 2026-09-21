@@ -1,6 +1,25 @@
-import Link from "next/link";
-import { BriefcaseBusiness, LockKeyhole } from "lucide-react";
+"use client";
+
+import { BriefcaseBusiness, Building2, Calculator, Crown, ShieldCheck, TrendingUp, UserRoundCog } from "lucide-react";
+
+const people = [
+  { role: "super_admin", name: "Emre Arslan", title: "Süper Yönetici", branch: "Tüm şubeler", initials: "EA", icon: Crown, tone: "blue" },
+  { role: "admin", name: "Mert Kaya", title: "Admin", branch: "Tüm şubeler", initials: "MK", icon: ShieldCheck, tone: "navy" },
+  { role: "branch_manager", name: "Ece Arslan", title: "Şube Yöneticisi", branch: "Kadıköy Şubesi", initials: "EÇ", icon: Building2, tone: "green" },
+  { role: "sales", name: "Selin Ak", title: "Satış Personeli", branch: "Merkez Şube", initials: "SA", icon: TrendingUp, tone: "amber" },
+  { role: "finance", name: "Can Eren", title: "Finans Personeli", branch: "Tüm şubeler", initials: "CE", icon: Calculator, tone: "violet" },
+];
 
 export default function LoginPage() {
-  return <main className="crm-login"><section className="login-story"><div className="login-brand"><span><BriefcaseBusiness size={18} /></span> NovaCRM</div><div><p className="eyebrow">İŞLETME YÖNETİMİ</p><h1>Her şube.<br />Her müşteri.<br />Tek ritim.</h1><p>Müşteri ilişkileri, ekip operasyonları ve finansal görünüm için modern çalışma alanı.</p></div><div className="login-proof"><span>3 aktif şube</span><span>1.284 müşteri</span><span>42 personel</span></div></section><section className="login-panel"><div className="login-card"><span className="login-lock"><LockKeyhole size={20} /></span><p className="eyebrow">YÖNETİM ERİŞİMİ</p><h2>Tekrar hoş geldiniz</h2><p className="sub">Demo hesabıyla panele güvenli giriş yapın.</p><div className="field"><label className="lbl">E-posta</label><input className="input" value="demo@novacrm.com" readOnly /></div><div className="field"><label className="lbl">Şifre</label><input className="input" value="••••••••" readOnly /></div><Link className="btn btn-primary login-submit" href="/panel">Demo panele giriş yap</Link><p className="login-note">Bu sunum mock veriler içerir; gerçek müşteri bilgisi kullanılmaz.</p></div></section></main>;
+  function login(role: string) {
+    document.cookie = `novacrm_role=${role}; path=/; max-age=86400; SameSite=Lax`;
+    window.location.assign("/panel");
+  }
+  return <main className="role-login">
+    <header className="role-login-head"><div className="login-brand dark"><span><BriefcaseBusiness size={18} /></span> NovaCRM</div><span className="demo-label">İNTERAKTİF UI DEMO</span></header>
+    <section className="role-intro"><p className="eyebrow">ROL BAZLI ERİŞİM</p><h1>Paneli kimin gözünden<br />incelemek istersiniz?</h1><p>Her kullanıcı yalnızca görev alanına ait modülleri görür. Bir demo personeli seçerek devam edin.</p></section>
+    <section className="role-grid">{people.map((person) => { const Icon = person.icon; return <button className="role-card" key={person.role} onClick={() => login(person.role)}><span className={`role-avatar ${person.tone}`}>{person.initials}</span><span className="role-copy"><b>{person.name}</b><span><Icon size={13} /> {person.title}</span><small>{person.branch}</small></span><span className="role-enter">Panele gir <b>→</b></span></button>; })}</section>
+    <footer className="role-footer"><span><UserRoundCog size={14} /> Yetkiler seçilen role göre otomatik uygulanır.</span><span>Mock veri · Gerçek kullanıcı bilgisi içermez</span></footer>
+  </main>;
 }
+
