@@ -10,8 +10,11 @@ import {
 } from "lucide-react";
 
 export type IconName = "dashboard" | "customers" | "operations" | "branches" | "staff" | "services" | "cash" | "reports" | "settings" | "roles";
-type NavItem = readonly [href: string, icon: IconName, label: string];
+export type RoleKey = "super_admin" | "admin" | "branch_manager" | "sales" | "finance";
+type NavItem = readonly [href: string, icon: IconName, label: string, roles: readonly RoleKey[]];
 type NavGroup = readonly [group: string, items: readonly NavItem[]];
+
+const roleLabels: Record<RoleKey, string> = { super_admin: "Süper Yönetici", admin: "Admin", branch_manager: "Şube Yöneticisi", sales: "Satış Personeli", finance: "Finans Personeli" };
 
 const icons: Record<IconName, LucideIcon> = {
   dashboard: LayoutDashboard, customers: UsersRound, operations: CalendarCheck,
@@ -24,13 +27,18 @@ function NavIcon({ name }: { name: IconName }) {
   return <Icon size={17} strokeWidth={1.8} className="nav-icon" aria-hidden="true" />;
 }
 
-export default function PanelShell({ children, navigation, roleLabel, brandName }: { children: React.ReactNode; navigation: readonly NavGroup[]; roleLabel: string; brandName: string }) {
+export default function PanelShell({ children, navigation, brandName }: { children: React.ReactNode; navigation: readonly NavGroup[]; brandName: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [branch, setBranch] = useState("Tüm Şubeler");
+  const [role, setRole] = useState<RoleKey>("sales");
   const pathname = usePathname();
 
   useEffect(() => { setIsNavigating(false); }, [pathname]);
+  useEffect(() => {
+    const value = document.cookie.split("; ").find((item) => item.startsWith("novacrm_role="))?.split("=")[1] as RoleKey | undefined;
+    if (value && roleLabels[value]) setRole(value);
+  }, []);
   useEffect(() => {
     if (!menuOpen) return;
     document.body.style.overflow = "hidden";
@@ -46,7 +54,7 @@ export default function PanelShell({ children, navigation, roleLabel, brandName 
     <aside className={`sidebar${menuOpen ? " open" : ""}`}>
       <div className="brand"><span className="logo-mark"><BriefcaseBusiness size={15} /></span> {brandName}<button className="sidebar-close" type="button" aria-label="Menüyü kapat" onClick={closeMenu}><X className="ic" /></button></div>
       <div className="workspace-chip"><span>Demo çalışma alanı</span><b>Merkez Operasyon</b></div>
-      {navigation.map(([group, items]) => <div className="nav-group" key={group}><div className="lab">{group}</div><nav>{items.map(([href, icon, label]) => { const active = href === "/panel" ? pathname === href : pathname.startsWith(href); return <Link className={active ? "active" : undefined} aria-current={active ? "page" : undefined} href={href} key={href} onClick={() => { setIsNavigating(true); closeMenu(); }}><NavIcon name={icon} /><span>{label}</span></Link>; })}</nav></div>)}
+      {navigation.map(([group, items]) => { const visibleItems = items.filter(([, , , roles]) => roles.includes(role)); return visibleItems.length ? <div className="nav-group" key={group}><div className="lab">{group}</div><nav>{visibleItems.map(([href, icon, label]) => { const active = href === "/panel" ? pathname === href : pathname.startsWith(href); return <Link prefetch className={active ? "active" : undefined} aria-current={active ? "page" : undefined} href={href} key={href} onClick={() => { setIsNavigating(true); closeMenu(); }}><NavIcon name={icon} /><span>{label}</span></Link>; })}</nav></div> : null; })}
       <div className="foot"><button className="sidebar-logout" type="button" onClick={() => { document.cookie = "novacrm_role=; path=/; max-age=0"; window.location.assign("/login"); }}><LogOut className="sidebar-logout-icon" size={15} strokeWidth={1.9} /> Rol değiştir / çıkış</button><span>CRM demo · v1.0</span></div>
     </aside>
     <div className="main">
@@ -55,7 +63,7 @@ export default function PanelShell({ children, navigation, roleLabel, brandName 
         <div className="appbar-title"><div className="crumb">{brandName} / İşletme Yönetimi</div></div>
         <div className="spacer" />
         <label className="branch-filter"><Building2 size={14} /><select value={branch} onChange={(event) => setBranch(event.target.value)} aria-label="Şube seç"><option>Tüm Şubeler</option><option>Merkez Şube</option><option>Kadıköy Şubesi</option><option>Avrupa Yakası</option></select></label>
-        <span className="pill role-pill">{roleLabel}</span>
+        <span className="pill role-pill">{roleLabels[role]}</span>
       </header>
       <div className="page-body">{children}</div>
     </div>

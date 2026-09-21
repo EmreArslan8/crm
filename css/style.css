@@ -1340,9 +1340,18 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
   .dashboard-hero, .module-head { align-items: stretch; flex-direction: column; gap: 16px; }
   .hero-actions, .module-head > .btn { width: 100%; }
   .hero-actions .btn { flex: 1; }
-  .crm-stats, .module-stats { grid-template-columns: 1fr 1fr; }
-  .crm-stats .stat, .module-stats .stat { min-height: 108px; padding: 14px; }
-  .crm-stats .v, .module-stats .v { font-size: 21px; }
+  .crm-stats, .module-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .crm-stats .stat, .module-stats .stat { min-width: 0; min-height: 92px; padding: 12px; }
+  .crm-stats .v, .module-stats .v { margin-top: 9px; font-size: 20px; }
+  .crm-stats .sub, .module-stats .sub, .crm-stats .trend, .module-stats .trend { margin-top: 6px; font-size: 10.5px; }
   .data-toolbar { align-items: stretch; flex-direction: column; }
   .search-box { width: 100%; }
   .data-toolbar > div { display: grid; grid-template-columns: 1fr 1fr; }
@@ -1356,7 +1365,6 @@ details > summary.btn { display: inline-flex; cursor: pointer; user-select: none
   .login-panel { padding: 22px 16px; }
 }
 @media (max-width: 430px) {
-  .crm-stats, .module-stats { grid-template-columns: 1fr; }
   .activity-row { grid-template-columns: 10px minmax(0, 1fr); }
   .activity-meta { grid-column: 2; justify-items: start; }
 }
