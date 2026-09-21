@@ -1,7 +1,6 @@
-import { getBrandName } from "../../lib/supabase/queries";
-import LoginForm from "./LoginForm";
+import Link from "next/link";
+import { BriefcaseBusiness, LockKeyhole } from "lucide-react";
 
-export default async function LoginPage() {
-  const brandName = await getBrandName();
-  return <LoginForm brandName={brandName} />;
+export default function LoginPage() {
+  return <main className="crm-login"><section className="login-story"><div className="login-brand"><span><BriefcaseBusiness size={18} /></span> NovaCRM</div><div><p className="eyebrow">İŞLETME YÖNETİMİ</p><h1>Her şube.<br />Her müşteri.<br />Tek ritim.</h1><p>Müşteri ilişkileri, ekip operasyonları ve finansal görünüm için modern çalışma alanı.</p></div><div className="login-proof"><span>3 aktif şube</span><span>1.284 müşteri</span><span>42 personel</span></div></section><section className="login-panel"><div className="login-card"><span className="login-lock"><LockKeyhole size={20} /></span><p className="eyebrow">YÖNETİM ERİŞİMİ</p><h2>Tekrar hoş geldiniz</h2><p className="sub">Demo hesabıyla panele güvenli giriş yapın.</p><div className="field"><label className="lbl">E-posta</label><input className="input" value="demo@novacrm.com" readOnly /></div><div className="field"><label className="lbl">Şifre</label><input className="input" value="••••••••" readOnly /></div><Link className="btn btn-primary login-submit" href="/panel">Demo panele giriş yap</Link><p className="login-note">Bu sunum mock veriler içerir; gerçek müşteri bilgisi kullanılmaz.</p></div></section></main>;
 }
